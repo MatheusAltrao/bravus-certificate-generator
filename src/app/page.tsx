@@ -22,6 +22,7 @@ export default function Home() {
     name: 'Faixa Cinza e Branca',
     color1: '#949599',
     color2: '#000',
+    alignment: 'text-center',
   });
   const [dateAndLocal, setDateAndLocal] = useState('Três Lagoas, Julho de 2024');
   const [uiPadding, setUiPadding] = useState('pb-0');
@@ -89,9 +90,9 @@ export default function Home() {
 
           <div
             style={{ background: belt.color1 }}
-            className={`h-[66px] absolute left-[120px] top-[371px] w-[450px] flex items-center  `}
+            className={`h-[66px] absolute left-[120px] top-[371px] w-[450px] flex items-center `}
           >
-            <p className={`text-4xl text-white belt-name  w-full text-right pr-[15%] ${uiPadding}`}>
+            <p className={`text-4xl text-white belt-name  w-full   ${uiPadding} ${belt.alignment}`}>
               {belt.name}
             </p>
           </div>
