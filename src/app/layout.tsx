@@ -16,6 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <meta
+          name="google"
+          content="notranslate"
+        />
+        <style>{`html { translate: no; }`}</style>
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
