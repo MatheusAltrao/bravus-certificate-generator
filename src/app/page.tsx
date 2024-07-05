@@ -1,112 +1,156 @@
-import Image from "next/image";
+'use client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { BeltsProps, jiuJitsuBelts } from '@/utils/beltsname';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import Image from 'next/image';
+import { FormEvent, useRef, useState } from 'react';
+import Certificado from '../assets/certificado.svg';
 
 export default function Home() {
+  const [name, setName] = useState('Matheus A. Quinquinato');
+  const [belt, setBelt] = useState<BeltsProps>({
+    name: 'Faixa Cinza e Branca',
+    color1: '#949599',
+    color2: '#000',
+  });
+  const [dateAndLocal, setDateAndLocal] = useState('Três Lagoas, Julho de 2024');
+  const [uiPadding, setUiPadding] = useState('pb-0');
+  const [uiTopPosition, setUiTopPosition] = useState('top-[285px]');
+
+  function handleBeltChange(value: string) {
+    const selectedBelt = jiuJitsuBelts.find((belt) => belt.name === value);
+    if (selectedBelt) {
+      setBelt(selectedBelt);
+    }
+  }
+
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  const handleExportPDF = async (e: FormEvent) => {
+    e.preventDefault();
+
+    setUiPadding('pb-8');
+    setUiTopPosition('top-[270px]');
+    setTimeout(async () => {
+      if (contentRef.current) {
+        const canvas = await html2canvas(contentRef.current);
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('landscape');
+        const pdfName = name + belt.name + '.pdf';
+
+        const pageWidth = 297;
+        const pageHeight = 210;
+
+        const imgWidth = pageWidth;
+        const imgHeight = pageHeight;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.save(pdfName);
+
+        // Restaura o estado original após gerar o PDF
+        setUiPadding('pb-0');
+        setUiTopPosition('top-[285px]');
+      } else {
+        console.error('Document not ready for PDF generation');
+      }
+    }, 0);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="p-10 flex items-center justify-center flex-col ">
+      <div className="max-w-[842px] mx-auto">
+        <div
+          ref={contentRef}
+          className="relative "
+        >
+          <Image
+            src={Certificado}
+            width={0}
+            height={0}
+            className="h-auto w-full object-cover "
+            sizes="100vw"
+            alt={'certificado'}
+            priority={true}
+          />
+
+          <div className={`w-full  text-center absolute ${uiTopPosition}`}>
+            <p className="text-3xl name ">{name}</p>
+          </div>
+
+          <div
+            style={{ background: belt.color1 }}
+            className={`h-[66px] absolute left-[120px] top-[371px] w-[450px] flex items-center justify-center `}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <p className={`text-4xl text-white belt-name ${uiPadding}`}>{belt.name}</p>
+          </div>
+
+          <div
+            style={{ background: belt.color2 }}
+            className={`h-[66px] absolute right-[152px]   top-[371px] text-white w-[120px] flex items-center justify-center `}
+          />
+
+          <div
+            style={{ background: belt.color1 }}
+            className="h-[66px] absolute right-[110px] top-[371px] w-[42px] "
+          />
+          <p className="absolute bottom-[70px] left-0 right-0 text-center font-bold text-xs">
+            {dateAndLocal}
+          </p>
         </div>
-      </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+        <form
+          onSubmit={handleExportPDF}
+          className="p-4 flex-col flex gap-4"
         >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+          <div>
+            <Label>Nome do aluno:</Label>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              name="studantName"
+              placeholder="Matheus Altrão"
+            />
+          </div>
+          <div>
+            <Label>Cor da faixa:</Label>
+            <Select onValueChange={handleBeltChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Faixas" />
+              </SelectTrigger>
+              <SelectContent>
+                {jiuJitsuBelts.map((belt) => (
+                  <SelectItem
+                    key={belt.name}
+                    value={belt.name}
+                  >
+                    {belt.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label>Data e local</Label>
+            <Input
+              value={dateAndLocal}
+              onChange={(e) => setDateAndLocal(e.target.value)}
+              name="dateAndLocal"
+              placeholder="local, mês ano"
+            />
+          </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+          <Button variant={'pdf'}> Gerar PDF</Button>
+        </form>
       </div>
     </main>
   );
