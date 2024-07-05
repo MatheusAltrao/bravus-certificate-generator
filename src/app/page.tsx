@@ -89,9 +89,11 @@ export default function Home() {
 
           <div
             style={{ background: belt.color1 }}
-            className={`h-[66px] absolute left-[120px] top-[371px] w-[450px] flex items-center justify-center `}
+            className={`h-[66px] absolute left-[120px] top-[371px] w-[450px] flex items-center  `}
           >
-            <p className={`text-4xl text-white belt-name ${uiPadding}`}>{belt.name}</p>
+            <p className={`text-4xl text-white belt-name  w-full text-right pr-[15%] ${uiPadding}`}>
+              {belt.name}
+            </p>
           </div>
 
           <div
