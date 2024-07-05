@@ -84,7 +84,7 @@ export default function Home() {
           />
 
           <div className={`w-full  text-center absolute ${uiTopPosition}`}>
-            <p className="text-3xl name ">{name}</p>
+            <p className="text-3xl name  ">{name}</p>
           </div>
 
           <div
