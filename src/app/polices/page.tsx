@@ -13,7 +13,6 @@ const Polices = () => {
   const [topPositioName, setTopPositionName] = useState('top-[295px]');
   const [topPositioCpf, setTopPositionCpf] = useState('top-[338px]');
   const [topPositioCurseNumber, setTopPositionCurseNumber] = useState('top-[364px]');
-  const [topPositioTeacher, setTopPositionTeacher] = useState('top-[485px]');
 
   const contentRef = useRef<HTMLDivElement | null>(null);
 
@@ -28,7 +27,6 @@ const Polices = () => {
       setTopPositionName('top-[283px]');
       setTopPositionCpf('top-[328px]');
       setTopPositionCurseNumber('top-[355px]');
-      setTopPositionTeacher('top-[475px]');
 
       setTimeout(async () => {
         if (contentRef.current) {
@@ -54,7 +52,6 @@ const Polices = () => {
       setTopPositionName('top-[295px]');
       setTopPositionCpf('top-[338px]');
       setTopPositionCurseNumber('top-[362px]');
-      setTopPositionTeacher('top-[485px]');
     }
   };
 
@@ -91,12 +88,6 @@ const Polices = () => {
             className={` text-[#393A4D] font-medium text-lg w-[22px] text-right absolute ${topPositioCurseNumber}  top-[362px] left-[253px]`}
           >
             <p>{curseNumber}</p>
-          </div>
-
-          <div
-            className={`text-xl name text-[#393A4D] font-medium w-[242px] text-center absolute  ${topPositioTeacher} left-[300px]`}
-          >
-            <p>Uriel F. Bogoni</p>
           </div>
         </div>
 
