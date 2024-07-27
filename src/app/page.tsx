@@ -6,7 +6,7 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Image from 'next/image';
 import { FormEvent, useRef, useState } from 'react';
-import Certificado from '../assets/certificado.svg';
+import Certificado from '../assets/certificado-bravus-jiu-jitsu.svg';
 
 export default function Home() {
   const [name, setName] = useState('Matheus A. Quinquinato');
@@ -38,10 +38,7 @@ export default function Home() {
           const pageWidth = 297;
           const pageHeight = 210;
 
-          const imgWidth = pageWidth;
-          const imgHeight = pageHeight;
-
-          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+          pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
           pdf.save(pdfName);
 
           // Restaura o estado original após gerar o PDF

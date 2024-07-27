@@ -1,3 +1,4 @@
+import Header from '@/components/ui/header';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -23,7 +24,10 @@ export default function RootLayout({
         />
         <style>{`html { translate: no; }`}</style>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
