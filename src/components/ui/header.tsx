@@ -21,6 +21,11 @@ const Header = () => {
           icon={''}
           name="Policiais"
         />
+        <ActiveLink
+          href="/seminar"
+          icon={''}
+          name="Seminário"
+        />
       </div>
     </header>
   );

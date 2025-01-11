@@ -16,7 +16,7 @@ export default function Home() {
     color2: '#000',
     alignment: 'text-center',
   });
-  const [dateAndLocal, setDateAndLocal] = useState('Três Lagoas, Julho de 2024');
+  const [dateAndLocal, setDateAndLocal] = useState('Três Lagoas, Julho de 2025');
   const [uiPadding, setUiPadding] = useState('pb-0');
   const [uiTopPosition, setUiTopPosition] = useState('top-[285px]');
 
